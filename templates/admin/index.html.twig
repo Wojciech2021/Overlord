@@ -10,30 +10,6 @@
 </style>
 
 <div class="container">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Lp.</th>
-                <th>Email</th>
-                <th>Rola</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% if users  is defined %}
-            {% for user in users %}
-                <tr>
-                    <td>{{ loop.index }}</td><td>{{ user.email }}</td>
-                    <td>
-                        {% for role in user.roles %}
-                            [{{ role }}]
-                        {% endfor %}
-                    </td>
-                </tr>
-            {% endfor %}
-        {% endif %}
-        </tbody>
-    </table>
+    <button type="button" class="btn btn-primary"><a href="{{ path('app_admin_users')}}" class="text-white text-decoration-none">Przydziel role użytnikom</a></button>
 </div>
 {% endblock %}
