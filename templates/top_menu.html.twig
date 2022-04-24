@@ -1,0 +1,5 @@
+{% if app.user %}
+    <div class="mb-3">
+        Jesteś zalogowany jako {{ app.user.getEmail }}, <a href="{{ path('app_logout') }}">Logout</a>
+    </div>
+{% endif %}

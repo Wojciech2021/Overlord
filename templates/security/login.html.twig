@@ -8,11 +8,11 @@
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            Jesteś zalogowany jako {{ app.user.getEmail }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
+{#    {% if app.user %}#}
+{#        <div class="mb-3">#}
+{#            Jesteś zalogowany jako {{ app.user.getEmail }}, <a href="{{ path('app_logout') }}">Logout</a>#}
+{#        </div>#}
+{#    {% endif %}#}
     <div class="d-flex justify-content-center mt-5">
         <div class="flex-container col-3 justify-content-center col-1 form-group">
             <div>
