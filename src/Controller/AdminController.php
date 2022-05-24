@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Form\AdminForms\AddDepartmentType;
+use App\Service\DepartmentService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,6 +11,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Service\UsersService;
 use App\Form\AdminForms\AssignRolesType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 class AdminController extends AbstractController
 {
@@ -46,13 +50,91 @@ class AdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            dd($form->getData('roles'));
+            $role = $form->getData('roles')['roles'];
+            $usersService->assignRoleToUser($user, $role);
         }
 
         return $this->render('admin/admin_assign_role.html.twig', [
             'controller_name' => 'AdminController',
             'user' => $user,
             'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/admin/add/department', name: 'app_add_department')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function add_department(DepartmentService $departmentService, Request $request)
+    {
+
+        $form = $this->createForm(AddDepartmentType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $departmentService->addDepartment($form->getData()['department_name']);
+        }
+
+        return $this->render('admin/admin_add_department.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/admin/chart', name: 'app_chart')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function chart(ChartBuilderInterface $chartBuilder): Response
+    {
+        $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
+
+        $chart->setData([
+            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            'datasets' => [
+                [
+                    'label' => 'My First dataset',
+                    'backgroundColor' => 'rgb(255, 99, 132)',
+                    'borderColor' => 'rgb(75, 192, 192)',
+                    'data' => [65, 59, 80, 81, 56, 55, 40],
+                    'borderWidth' => 10,
+                    'tension' => 0.1,
+                    'fill' => false,
+                ],
+            ],
+        ]);
+
+        $chart->setOptions([
+            'scales' => [
+                'y' => [
+                    'suggestedMin' => 0,
+                    'suggestedMax' => 100,
+                ],
+            ],
+            'plugins' => [
+                'title' => [
+                    'display' => true,
+                    'text' => 'Overlord',
+                ],
+                'annotation' => [
+                    'annotations' => [
+                        'box1' => [
+                            'type' => 'box',
+                            'xMin' => 1,
+                            'xMax' => 2,
+                            'yMin' => 10,
+                            'yMax' => 70,
+                            'backgroundColor' => 'rgba(75, 192, 192, 0.25)',
+                            'label' => [
+                              'content' => 'Okrągły kwadrat',
+                                'enabled' => true
+                            ],
+                        ]
+                    ]
+                ]
+            ],
+
+        ]);
+
+
+        return $this->render('admin/chart.html.twig', [
+            'chart' => $chart,
         ]);
     }
 }

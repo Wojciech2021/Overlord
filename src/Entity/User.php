@@ -30,6 +30,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\ManyToOne(targetEntity: Department::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $department;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $macAddress;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -108,6 +115,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getDepartment(): ?Department
+    {
+        return $this->department;
+    }
+
+    public function setDepartment(?Department $department): self
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+    public function getMacAddress(): ?string
+    {
+        return $this->macAddress;
+    }
+
+    public function setMacAddress(string $macAddress): self
+    {
+        $this->macAddress = $macAddress;
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 
 class UsersService
@@ -22,4 +23,11 @@ class UsersService
     {
         return $this->userRepository->findOneBy(['id' => $id]);
     }
+
+    public function assignRoleToUser(User $user, string $role, )
+    {
+        $user->setRoles([$role]);
+        $this->userRepository->add($user);
+    }
+
 }

@@ -2,9 +2,14 @@
 
 namespace App\Form;
 
+use App\Entity\Department;
 use App\Entity\User;
+use App\Service\DepartmentService;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,11 +20,24 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationFormType extends AbstractType
 {
+    private  $departments;
+
+    public function __construct(DepartmentService $departmentService)
+    {
+        $this->departments = $departmentService->getAllDepartments();
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('email', EmailType::class, [
                 'label' => 'Email:',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('macAddress', TextType::class, [
+                'label' => 'Mac Address:',
                 'attr' => [
                     'class' => 'form-control'
                 ]
@@ -35,6 +53,19 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Musisz zaakceptować regulamin.',
                     ]),
                 ],
+            ])
+            ->add('department', ChoiceType::class, [
+                'label' => 'Wybierz dział:',
+                'mapped' => true,
+                'required' => true,
+                'choices' => [
+                    $this->departments
+                ],
+                'choice_label' => function ($department)
+                {
+
+                    return $department->getDepartmentName();
+                }
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,

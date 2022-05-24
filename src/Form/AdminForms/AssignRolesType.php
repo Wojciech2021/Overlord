@@ -25,7 +25,8 @@ class AssignRolesType extends AbstractType
                 [
                     'class' => 'form-select'
                 ],
-                'required' => false,
+                'required' => true,
+                'placeholder' => '',
             ])
             ->add('save_role', SubmitType::class, [
                 'label' => 'Przydziel',

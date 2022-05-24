@@ -23,6 +23,14 @@
         </div>
         <div class="pt-3">
             <div class="pb-1">
+                {{ form_label(registrationForm.macAddress) }}
+            </div>
+            <div>
+                {{ form_widget(registrationForm.macAddress) }}
+            </div>
+        </div>
+        <div class="pt-3">
+            <div class="pb-1">
                 {{ form_label(registrationForm.plainPassword)}}
             </div>
             <div>

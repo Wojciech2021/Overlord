@@ -8,6 +8,10 @@
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
+    <div>
+        <h1>OVERLORD</h1>
+    </div>
+
 {#    {% if app.user %}#}
 {#        <div class="mb-3">#}
 {#            Jesteś zalogowany jako {{ app.user.getEmail }}, <a href="{{ path('app_logout') }}">Logout</a>#}
@@ -38,7 +42,9 @@
                     </label>
                 </div>
                 #}
-
+                <div style="margin-right: 305px">
+                    <a href="{{ path('app_register') }}">Rejestracja</a>
+                </div>
                 <button class="btn btn-lg btn-primary" type="submit">
                     Zaloguj
                 </button>
