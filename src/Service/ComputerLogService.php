@@ -25,15 +25,15 @@ class ComputerLogService
 
 
 
-        $response = $this->httpClient->request('POST', 'http://25.78.20.21:8080/get/computer/data', [
-            // defining data using an array of parameters
-            'json' => ['dataFrom' => 1653330280, 'dataTo' => 1653330345, 'macAddress' => '902E16B76F7A'],
-            ]);
-
-//        $response = $this->httpClient->request('POST', 'http://25.78.20.21:8080/get/computer/data', [
+//        $response = $this->httpClient->request('POST', 'http://192.168.1.12:8080/get/computer/data', [
 //            // defining data using an array of parameters
-//            'json' => ['dataFrom' => $dateFrom, 'dataTo' => $dateTo, 'macAddress' => $macAddress],
-//        ]);
+//            'json' => ['dataFrom' => 1653330280, 'dataTo' => 1653330345, 'macAddress' => '902E16B76F7A'],
+//            ]);
+
+        $response = $this->httpClient->request('POST', 'http://192.168.1.12:8080/get/computer/data', [
+            // defining data using an array of parameters
+            'json' => ['dataFrom' => $dateFrom, 'dataTo' => $dateTo, 'macAddress' => $macAddress],
+        ]);
 
 
 
@@ -41,7 +41,7 @@ class ComputerLogService
 
         $content = $response->toArray();
 
-//        dd($content);
+        //dd($content);
 
         return $content;
     }
